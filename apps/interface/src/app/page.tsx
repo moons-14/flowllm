@@ -20,6 +20,7 @@ const selector = (store: FlowStore) => ({
   onEdgeUpdateEnd: store.onEdgeUpdateEnd,
   setReactFlowInstance: store.setReactFlowInstance,
   onDrop: store.onDrop,
+  isValidConnection: store.isValidConnection,
 });
 
 
@@ -50,7 +51,7 @@ export default function Home() {
                 onEdgeUpdate={store.onEdgeUpdate}
                 onEdgeUpdateStart={store.onEdgeUpdateStart}
                 onEdgeUpdateEnd={store.onEdgeUpdateEnd}
-
+                isValidConnection={store.isValidConnection}
                 onInit={store.setReactFlowInstance}
                 onDrop={store.onDrop}
                 onDragOver={onDragOver}

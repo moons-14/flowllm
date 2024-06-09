@@ -1,8 +1,16 @@
 import { Handle, Position } from "reactflow";
 import { Button } from "../ui/button";
 import { Play, StepForward } from "lucide-react";
+import { FlowStore, useStore } from "@/store";
+import { shallow } from "zustand/shallow";
 
-export function LLMNode({ data, isConnectable }: { data: any, isConnectable: boolean }) {
+const selector = (store: FlowStore) => ({
+    llmSingleRun: store.llmSingleRun,
+});
+
+export function LLMNode({ id, isConnectable }: { id: string, isConnectable: boolean }) {
+    const store = useStore(selector, shallow);
+
     return (
         <>
             <Handle type="target" id="llm-target-system" style={{ top: 20 }} position={Position.Left} isConnectable={isConnectable} />
@@ -10,7 +18,7 @@ export function LLMNode({ data, isConnectable }: { data: any, isConnectable: boo
             <div className='p-4 rounded-md border-black border bg-background w-48'>
                 <div className='text-lg font-bold text-center'>LLM</div>
                 <div className='flex items-center justify-between px-4 py-2 text-primary'>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" onClick={() => { store.llmSingleRun(id) }}>
                         <Play />
                     </Button>
                     <Button variant="ghost" size="icon">
