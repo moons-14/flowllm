@@ -13,6 +13,9 @@ const selector = (store: FlowStore) => ({
   onNodesChange: store.onNodesChange,
   onEdgesChange: store.onEdgesChange,
   addEdge: store.addEdge,
+  onEdgeUpdate: store.onEdgeUpdate,
+  onEdgeUpdateStart: store.onEdgeUpdateStart,
+  onEdgeUpdateEnd: store.onEdgeUpdateEnd,
 });
 
 
@@ -29,6 +32,9 @@ export default function Home() {
           onNodesChange={store.onNodesChange}
           onEdgesChange={store.onEdgesChange}
           onConnect={store.addEdge}
+          onEdgeUpdate={store.onEdgeUpdate}
+          onEdgeUpdateStart={store.onEdgeUpdateStart}
+          onEdgeUpdateEnd={store.onEdgeUpdateEnd}
         >
           <Controls />
           <MiniMap />
