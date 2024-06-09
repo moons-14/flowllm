@@ -23,3 +23,19 @@ export function LLMNode({ data, isConnectable }: { data: any, isConnectable: boo
         </>
     );
 }
+
+export const MockLLMNode = () => {
+    return (<div className="pointer-events-none w-48">
+        <div className='p-4 rounded-md border-black border bg-background w-48'>
+            <div className='text-lg font-bold text-center'>LLM</div>
+            <div className='flex items-center justify-between px-4 py-2 text-primary'>
+                <Button variant="ghost" size="icon">
+                    <Play />
+                </Button>
+                <Button variant="ghost" size="icon">
+                    <StepForward />
+                </Button>
+            </div>
+        </div>
+    </div>)
+}

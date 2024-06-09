@@ -1,4 +1,5 @@
-import { applyNodeChanges, applyEdgeChanges, OnNodesChange, OnEdgesChange, OnConnect, Node, Edge, OnEdgeUpdateFunc, updateEdge } from 'reactflow';
+import { applyNodeChanges, applyEdgeChanges, OnNodesChange, OnEdgesChange, OnConnect, Node, Edge, OnEdgeUpdateFunc, updateEdge, ReactFlowInstance } from 'reactflow';
+import { DragEvent } from 'react';
 import { nanoid } from 'nanoid';
 import { create } from 'zustand';
 
@@ -12,6 +13,7 @@ export type FlowStore = {
     nodes: Node[];
     edges: Edge[];
     edgeUpdateSuccessful: boolean;
+    reactFlowInstance: null | ReactFlowInstance;
 
     onNodesChange: OnNodesChange;
     onEdgesChange: OnEdgesChange;
@@ -23,12 +25,16 @@ export type FlowStore = {
     onEdgeUpdate: OnEdgeUpdateFunc;
     onEdgeUpdateStart: () => void;
     onEdgeUpdateEnd: (event: MouseEvent | TouchEvent, edge: Edge) => void;
+
+    setReactFlowInstance: (instance: ReactFlowInstance) => void;
+    onDrop: (event: DragEvent<HTMLDivElement>) => void;
 }
 
 export const useStore = create<FlowStore>((set, get) => ({
     nodes: [...initialNodes],
     edges: [],
     edgeUpdateSuccessful: true,
+    reactFlowInstance: null,
 
     onNodesChange(changes) {
         set({
@@ -78,6 +84,41 @@ export const useStore = create<FlowStore>((set, get) => ({
         }
 
         set({ edgeUpdateSuccessful: true });
+    },
+
+    setReactFlowInstance(instance) {
+        set({ reactFlowInstance: instance });
+    },
+
+    onDrop(event) {
+        event.preventDefault();
+
+        const type = event.dataTransfer.getData('application/reactflow');
+
+        // check if the dropped element is valid
+        if (typeof type === 'undefined' || !type) {
+            return;
+        }
+
+        const position = get().reactFlowInstance!.screenToFlowPosition({
+            x: event.clientX,
+            y: event.clientY,
+        });
+
+        let initdata = undefined;
+
+        if (type === 'plaintext') {
+            initdata = { title: 'Title', content: 'Content' };
+        }
+
+        const newNode = {
+            id: nanoid(),
+            type,
+            position,
+            data: initdata,
+        } as Node;
+
+        set({ nodes: [...get().nodes, newNode] });
     }
 
 }));

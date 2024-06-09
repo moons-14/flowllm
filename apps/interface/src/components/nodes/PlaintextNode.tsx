@@ -32,3 +32,18 @@ export function PlaintextNode({ id, data, isConnectable }: { id: string, data: {
         </>
     );
 }
+
+export const MockPlaintextNode = () => {
+    return (<div className="pointer-events-none w-[288px]">
+        <div className='p-4 rounded-md border-black border bg-background break-words space-y-4'>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label>Title</Label>
+                <Input placeholder="Title" className="nodrag" />
+            </div>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label>Content</Label>
+                <Textarea placeholder="Content" className="nodrag" rows={3} />
+            </div>
+        </div>
+    </div>)
+}
